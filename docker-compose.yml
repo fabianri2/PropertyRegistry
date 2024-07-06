@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  blockchain:
+    image: trufflesuite/ganache-cli
+    ports:
+      - "7545:7545"
+    command: ["-p", "7545", "-i", "5777"]
+    networks:
+      - blockchain-net
+
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    depends_on:
+      - blockchain
+    networks:
+      - blockchain-net
+
+networks:
+  blockchain-net:
+    driver: bridge
